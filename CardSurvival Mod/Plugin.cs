@@ -1,4 +1,6 @@
-﻿using BepInEx;
+﻿using System.Globalization;
+using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
 using UnityEngine;
@@ -9,11 +11,14 @@ namespace $safeprojectname$;
 public class Plugin : BaseUnityPlugin
 {
     public static ManualLogSource Log { get; set; }
+    public ConfigEntry<string> TestSetting { get; private set; }
+
 
     private void Awake()
     {
-
         Log = Logger;
+
+        TestSetting = Config.Bind("General", nameof(TestSetting), "test", "test description");
 
         Harmony harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         harmony.PatchAll();
